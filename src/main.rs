@@ -1,10 +1,17 @@
-use domain::config::{Config, DB};
+use std::rc::Rc;
+
+use domain::{
+    config::{Config, DB},
+    user::{User, UserTrait},
+};
 use dotenv::dotenv;
 use repository::postgres::user::UserPg;
+use service::user::UserService;
 use sqlx::postgres::PgPoolOptions;
 
 mod domain;
 mod repository;
+mod service;
 #[tokio::main]
 async fn main() -> Result<(), sqlx::Error> {
     dotenv().ok();
@@ -34,6 +41,16 @@ async fn main() -> Result<(), sqlx::Error> {
         ))
         .await?;
 
-    let userRepo = UserPg::new(pool);
+    let data: User = User {
+        id: 1,
+        name: "".to_string(),
+        email: "".to_string(),
+        password: "".to_string(),
+    };
+
+    let user_repo = Rc::new(UserPg::new(pool));
+
+    let user_service = UserService::new(user_repo);
+    user_service.create_user(&data);
     Ok(())
 }
