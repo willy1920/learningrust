@@ -1,5 +1,5 @@
 [package]
-name = "mail"
+name = "learningrust"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,3 +9,9 @@ edition = "2021"
 dotenv = "0.15.0"
 sqlx = { version = "0.6", features = [ "runtime-tokio-rustls", "postgres"] }
 tokio = { version = "1", features = ["full"] }
+
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+opt-level = 3
