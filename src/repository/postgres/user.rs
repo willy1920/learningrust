@@ -17,10 +17,10 @@ impl UserPg {
         let result = sqlx::query_as!(
             User,
             r"INSERT INTO userr(name, email, password,id) VALUES($1,$2,$3,$4)",
-            &data.name,
-            data.email.as_ref(),
-            &data.password,
-            &data.id
+            data.name,
+            data.email,
+            data.password,
+            data.id
         )
         .execute(&self.con)
         .await;
@@ -44,6 +44,22 @@ impl UserPg {
         let result = sqlx::query_as!(User, r"DELETE FROM userr WHERE id=$1", &id)
             .execute(&self.con)
             .await;
+        match result {
+            Ok(_) => Ok(()),
+            Err(e) => Err(Error::new(CustomError::SqlxError(e))),
+        }
+    }
+
+    pub async fn update_user(&self, data: &User) -> Result<(), Error> {
+        let result = sqlx::query_as!(
+            User,
+            r"UPDATE userr SET email=$1,name=$2 WHERE id=$3",
+            data.email,
+            data.name,
+            data.id
+        )
+        .execute(&self.con)
+        .await;
         match result {
             Ok(_) => Ok(()),
             Err(e) => Err(Error::new(CustomError::SqlxError(e))),

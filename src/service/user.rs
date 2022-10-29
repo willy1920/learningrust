@@ -32,4 +32,12 @@ impl UserService {
             Err(e) => println!("{:?}", e.to_string()),
         }
     }
+
+    pub async fn update_user(&self, data: &User) {
+        let result = self.user_repo.update_user(data).await;
+        match result {
+            Ok(_) => {}
+            Err(e) => println!("{:?}", e.to_string()),
+        }
+    }
 }

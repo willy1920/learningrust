@@ -52,6 +52,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let user_service = UserService::new(user_repo);
     user_service.create_user(&data).await;
+    user_service.update_user(&data).await;
     user_service.get_all().await;
     user_service.delete_user(&data.id).await;
     Ok(())
