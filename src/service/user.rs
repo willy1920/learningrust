@@ -16,4 +16,12 @@ impl UserService {
             Err(e) => println!("{:?}", e.to_string()),
         }
     }
+
+    pub async fn get_all(&self) {
+        let result = self.user_repo.get_all().await;
+        match result {
+            Ok(data) => println!("{:?}", data),
+            Err(e) => println!("{:?}", e.to_string()),
+        }
+    }
 }

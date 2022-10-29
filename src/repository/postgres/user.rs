@@ -14,14 +14,25 @@ impl UserPg {
     }
 
     pub async fn create_user(&self, data: &User) -> Result<(), Error> {
-        let result = sqlx::query("INSERT INTO MAIL.USER(name, email, password) VALUES($1,$2,$3)")
+        let result = sqlx::query("INSERT INTO userr(name, email, password,id) VALUES($1,$2,$3,$4)")
             .bind(&data.name)
             .bind(&data.email)
             .bind(&data.password)
+            .bind(&data.id)
             .execute(&self.con)
             .await;
         match result {
             Ok(_) => Ok(()),
+            Err(e) => Err(Error::new(CustomError::SqlxError(e))),
+        }
+    }
+
+    pub async fn get_all(&self) -> Result<Vec<User>, Error> {
+        let result = sqlx::query_as!(User, r"SELECT id,name,email,password FROM userr")
+            .fetch_all(&self.con)
+            .await;
+        match result {
+            Ok(data) => Ok(data),
             Err(e) => Err(Error::new(CustomError::SqlxError(e))),
         }
     }

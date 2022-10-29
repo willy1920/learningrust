@@ -34,7 +34,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     };
 
     let pool = PgPoolOptions::new()
-        .max_connections(conf.db.max_connection)
+        .max_connections(conf.db.max_connection as u32)
         .connect(&format!(
             "postgres://{}:{}@{}:{}/{}",
             conf.db.username, conf.db.password, conf.db.host, conf.db.port, conf.db.name
@@ -44,7 +44,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let data: User = User {
         id: 1,
         name: "nama".to_string(),
-        email: "email@email.com".to_string(),
+        email: Some("email@email.com".to_string()),
         password: "password".to_string(),
     };
 
@@ -52,5 +52,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let user_service = UserService::new(user_repo);
     user_service.create_user(&data).await;
+    user_service.get_all().await;
     Ok(())
 }

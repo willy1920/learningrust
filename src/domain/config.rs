@@ -8,6 +8,6 @@ pub struct DB {
     pub password: String,
     pub host: String,
     pub name: String,
-    pub port: u32,
-    pub max_connection: u32,
+    pub port: u16,
+    pub max_connection: u8,
 }
