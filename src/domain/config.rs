@@ -4,10 +4,6 @@ pub struct Config {
 }
 #[derive(Debug)]
 pub struct DB {
-    pub username: String,
-    pub password: String,
-    pub host: String,
-    pub name: String,
-    pub port: u16,
+    pub database_url: String,
     pub max_connection: u8,
 }

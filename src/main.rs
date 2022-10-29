@@ -18,14 +18,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let conf = Config {
         db: DB {
-            username: std::env::var("USERNAMEDB").expect("USERNAMEDB must be set."),
-            password: std::env::var("PASSWORDDB").expect("PASSWORDDB must be set."),
-            host: std::env::var("HOSTDB").expect("HOSTDB must be set."),
-            name: std::env::var("NAMEDB").expect("NAMEDB must be set."),
-            port: std::env::var("PORTDB")
-                .expect("PORTDB must be set.")
-                .parse()
-                .unwrap(),
+            database_url: std::env::var("DATABASE_URL").expect("DATABASE_URL must be set."),
             max_connection: std::env::var("MAX_CONNECTIONDB")
                 .expect("MAX_CONNECTIONDB must be set.")
                 .parse()
@@ -35,10 +28,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let pool = PgPoolOptions::new()
         .max_connections(conf.db.max_connection as u32)
-        .connect(&format!(
-            "postgres://{}:{}@{}:{}/{}",
-            conf.db.username, conf.db.password, conf.db.host, conf.db.port, conf.db.name
-        ))
+        .connect(&conf.db.database_url)
         .await?;
 
     let data: User = User {
