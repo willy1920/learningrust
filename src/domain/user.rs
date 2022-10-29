@@ -5,11 +5,3 @@ pub struct User {
     pub email: String,
     pub password: String,
 }
-
-pub trait UserRepo {
-    fn create_user(&self, data: &User);
-}
-
-pub trait UserTrait {
-    fn create_user(&self, data: &User);
-}

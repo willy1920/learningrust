@@ -1,18 +1,19 @@
-use crate::domain::user::{User, UserRepo, UserTrait};
-use std::rc::Rc;
+use crate::{domain::user::User, repository::postgres::user::UserPg};
 
-pub struct UserService<'a> {
-    user_repo: Rc<dyn UserRepo + 'a>,
+pub struct UserService {
+    user_repo: UserPg,
 }
 
-impl<'a> UserService<'a> {
-    pub fn new(user: Rc<dyn UserRepo + 'a>) -> UserService<'a> {
+impl UserService {
+    pub fn new(user: UserPg) -> UserService {
         UserService { user_repo: user }
     }
-}
 
-impl UserTrait for UserService<'_> {
-    fn create_user(&self, data: &User) {
-        self.user_repo.create_user(data);
+    pub async fn create_user(&self, data: &User) {
+        let result = self.user_repo.create_user(data).await;
+        match result {
+            Ok(_) => {}
+            Err(e) => println!("{:?}", e.to_string()),
+        }
     }
 }
