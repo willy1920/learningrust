@@ -39,4 +39,14 @@ impl UserPg {
             Err(e) => Err(Error::new(CustomError::SqlxError(e))),
         }
     }
+
+    pub async fn delete_user(&self, id: &i64) -> Result<(), Error> {
+        let result = sqlx::query_as!(User, r"DELETE FROM userr WHERE id=$1", &id)
+            .execute(&self.con)
+            .await;
+        match result {
+            Ok(_) => Ok(()),
+            Err(e) => Err(Error::new(CustomError::SqlxError(e))),
+        }
+    }
 }

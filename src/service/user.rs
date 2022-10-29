@@ -24,4 +24,12 @@ impl UserService {
             Err(e) => println!("{:?}", e.to_string()),
         }
     }
+
+    pub async fn delete_user(&self, id: &i64) {
+        let result = self.user_repo.delete_user(id).await;
+        match result {
+            Ok(_) => {}
+            Err(e) => println!("{:?}", e.to_string()),
+        }
+    }
 }
