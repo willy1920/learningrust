@@ -19,18 +19,18 @@ fn main() {
     )
     .expect("failed to create instance");
 
-    let event_loop = EventLoop::new(); // ignore this for now
-    let surface = WindowBuilder::new()
-        .build_vk_surface(&event_loop, instance.clone())
+    let event_loop = EventLoop::new();
+    let _surface = WindowBuilder::new()
+        .build_vk_surface(&event_loop, instance)
         .unwrap();
 
-    event_loop.run(|event, _, control_flow| match event {
-        Event::WindowEvent {
+    event_loop.run(|event, _, control_flow| {
+        if let Event::WindowEvent {
             event: WindowEvent::CloseRequested,
             ..
-        } => {
+        } = event
+        {
             *control_flow = ControlFlow::Exit;
         }
-        _ => (),
     });
 }
