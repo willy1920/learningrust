@@ -1,5 +1,5 @@
 [workspace]
-members = ["learnsqlx","learnvulkan","grpcclient","grpcserver"]
+members = ["learnsqlx","learnvulkan","grpcclient","grpcserver","junipertest"]
 
 [profile.dev]
 opt-level = 0
