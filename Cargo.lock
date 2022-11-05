@@ -760,6 +760,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "grpcserverweb"
+version = "0.1.0"
+dependencies = [
+ "prost",
+ "tokio",
+ "tonic",
+ "tonic-build",
+]
+
+[[package]]
 name = "h2"
 version = "0.3.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
