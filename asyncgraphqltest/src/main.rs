@@ -60,5 +60,5 @@ async fn main() {
 
     fut.await;
 
-    println!("shutting down");
+    println!("\r\nshutting down");
 }
